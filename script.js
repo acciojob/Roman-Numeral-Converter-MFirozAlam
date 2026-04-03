@@ -11,12 +11,38 @@ function convertToRoman(num) {
 
   //your code here
 	let result='';
-	 for (let [value, symbol] of values) {
-		 while (num >= value) {
-			 result += symbol;
-			 num -= value;
-		 }
-	 }
+	 for (let i = 0; i <= 6; i++) {
+    let symbol = obj[i][0];
+    let value = obj[i][1];
+
+    // Handle 9 cases (like 900, 90, 9)
+    if (i % 2 === 0 && i + 2 <= 6) {
+      let nextValue = obj[i + 2][1];
+      if (num >= value - nextValue) {
+        while (num >= value - nextValue) {
+          result += obj[i + 2][0] + symbol;
+          num -= (value - nextValue);
+        }
+      }
+    }
+
+    // Handle 4 cases (like 400, 40, 4)
+    if (i % 2 === 0 && i + 1 <= 6) {
+      let halfValue = obj[i + 1][1];
+      if (num >= value - halfValue) {
+        while (num >= value - halfValue) {
+          result += symbol + obj[i + 1][0];
+          num -= (value - halfValue);
+        }
+      }
+    }
+
+    // Normal cases
+    while (num >= value) {
+      result += symbol;
+      num -= value;
+    }
+  }
 
   return result;
 
